@@ -21,12 +21,12 @@ public class MecanumDrive {
     public static State state=State.ROBOT;
     HardwareMap hm;
     public static boolean swap , resetImu;
-    DcMotorEx leftTop , leftDown , rightTop , rightDown;
+    public static DcMotorEx leftTop , leftDown , rightTop , rightDown;
     double x,y,rotate;
     double botHeading;
 
 
-    IMU imu;
+    public static IMU imu;
     public MecanumDrive(HardwareMap hm)
     {
         this.hm=hm;
@@ -40,12 +40,13 @@ public class MecanumDrive {
         leftDown=hm.get(DcMotorEx.class , "ch2");
         rightDown=hm.get(DcMotorEx.class , "ch3");
         imu=hm.get(IMU.class , "imu");
-        leftDown.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightTop.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftTop.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightDown.setDirection(DcMotorSimple.Direction.REVERSE);
         leftTop.setPower(0);
         rightTop.setPower(0);
         leftDown.setPower(0);
         rightDown.setPower(0);
+        leftTop.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.UP,
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
@@ -101,13 +102,14 @@ public class MecanumDrive {
     private void updatePow()
     {
         double det=Math.max(1 , Math.abs(x)+Math.abs(y)+Math.abs(rotate));
-        leftTop.setPower((y+x+rotate)/det);
-        rightTop.setPower((y-x-rotate)/det);
-        leftDown.setPower((y-x+rotate)/det);
-        rightDown.setPower((y+x-rotate)/det);
+        leftTop.setPower((y+x-rotate)/det);
+        rightTop.setPower((y-x+rotate)/det);
+        leftDown.setPower((y-x-rotate)/det);
+        rightDown.setPower((y+x+rotate)/det);
     }
     public void update()
     {
+        if (resetImu)imu.resetYaw();
         updateState();
         updateVar();
         updatePow();

@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class OuttakeArm {
 
 
-    public static double posD=1, posO=.3;
+    public static double posD=0.94, posO=.28;
     public static double maxVelocity=16 , acc=12 , dec=10 ;
     public static BetterMotionProfile profile=new BetterMotionProfile(maxVelocity , acc , dec);
 

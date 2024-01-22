@@ -54,8 +54,8 @@ public class Lift {
         switch(state)
         {
             case Adjusting:
-                if(150!=profile.finalPosition)profile.setMotion(profile.getPosition() , 150 , profile.getVelocity());
-                pow=pid.pidControl(profile.getPosition() , encoder.getCurrentPosition());
+                if(200!=profile.finalPosition)profile.setMotion(profile.getPosition() , 200 , profile.getVelocity());
+                pow=pid.pidControl(profile.getPosition() , -encoder.getCurrentPosition());
                 lift1.setPower(pow);
                 lift2.setPower(pow);
                 jos=false;
@@ -67,9 +67,9 @@ public class Lift {
                 }
                 break;
             case GoingDown:
-                if(encoder.getCurrentPosition()==lastPosition)nr++;
+                if(-encoder.getCurrentPosition()==lastPosition)nr++;
                 jos=false;
-                if(nr==20)
+                if(nr==60)
                 {state=State.Down;
                     lift1.setPower(0);
                     lift2.setPower(0);
@@ -78,14 +78,14 @@ public class Lift {
                     encoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                     profile.setMotion(0 , 0 , 0);
                 }
-                lastPosition=encoder.getCurrentPosition();
+                lastPosition=-encoder.getCurrentPosition();
                 break;
             case Up:
                 if(position<200)position=200;
                 if(position>700)position=700;
                 ok=false;
                 if (profile.finalPosition != position) profile.setMotion(profile.getPosition(), position, profile.getVelocity());
-                pow=pid.pidControl(profile.getPosition() , encoder.getCurrentPosition());
+                pow=pid.pidControl(profile.getPosition() , -encoder.getCurrentPosition());
                 lift1.setPower(pow);
                 lift2.setPower(pow);
                 nr=0;

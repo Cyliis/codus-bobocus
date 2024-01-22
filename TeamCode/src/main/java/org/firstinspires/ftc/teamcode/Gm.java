@@ -32,8 +32,12 @@ public class Gm {
         else IntakePosition.state= IntakePosition.State.GoingUP;
 
          if(gamepad2.left_trigger>0 && intakePos==IntakePosition.posUp)IntakePixel.state= IntakePixel.State.Reverse;
-        else if(gamepad2.right_trigger>0  && intakePos==IntakePosition.posGround)IntakePixel.state= IntakePixel.State.Intake;
-        else IntakePixel.state= IntakePixel.State.Pause;
+        else if(gamepad2.right_trigger>0  && intakePos==IntakePosition.posGround)
+         {IntakePixel.state= IntakePixel.State.Intake;
+         }
+        else
+         {IntakePixel.state= IntakePixel.State.Pause;
+         }
 
         if(gamepad.right_bumper && !gamepad.left_bumper)Climber.state= Climber.State.GoingUp;
         else if(gamepad.left_bumper && !gamepad.right_bumper)Climber.state=Climber.State.GoingDown;

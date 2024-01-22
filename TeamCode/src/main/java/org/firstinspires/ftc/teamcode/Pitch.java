@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Pitch {
 
     Servo servo;
-    public static double posD=0.54, posO=0.22;
+    public static double posD=0.64, posO=0.28;
     public static double maxVelocity=15 , acc=8 , dec=8 ;
     public static BetterMotionProfile profile=new BetterMotionProfile(maxVelocity , acc , dec);
     enum State{
